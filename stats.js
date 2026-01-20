@@ -38,13 +38,13 @@ let unpaidTotal = receipts
 
 // عرض فـ HTML
 document.getElementById("totalAll").innerHTML =`
- <h3>${totalAll}</h3>
+ <h3>${totalAll}$</h3>
   <p>💰درهم</p><span></span>
 `
   
 
 document.getElementById("receiptsCount").textContent =
-  "🧾 عدد الوصولات: " + receiptsCount+"$";
+  "🧾 عدد الوصولات: " + receiptsCount;
 
 document.getElementById("mostItem").textContent =
   "👕 أكثر قطعة: " + mostItem[0] + " (" + mostItem[1] + ")";
