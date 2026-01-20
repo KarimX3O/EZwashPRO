@@ -44,7 +44,7 @@ document.getElementById("totalAll").innerHTML =`
   
 
 document.getElementById("receiptsCount").textContent =
-  "🧾 عدد الوصولات: " + receiptsCount;
+  "🧾 عدد الوصولات: " + receiptsCount+"$";
 
 document.getElementById("mostItem").textContent =
   "👕 أكثر قطعة: " + mostItem[0] + " (" + mostItem[1] + ")";
