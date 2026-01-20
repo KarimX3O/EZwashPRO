@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>جميع القطع</title>
+<style>
+body {
+  font-family: "Tahoma", "Arial", sans-serif;
+  background: #f0f2f5;
+  margin: 20px;
+  direction: rtl;
+  color: #333;
+}
+
+h2 {
+  margin-top: 30px;
+  color: #2c3e50;
+  font-size: 22px;
+  border-right: 5px solid #3498db;
+  padding-right: 10px;
+}
+
+.table-container {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+table {
+  flex: 1;
+  min-width: 280px;
+  border-collapse: collapse;
+  background: none;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+thead {
+  background: linear-gradient(90deg, #3498db, #2980b9);
+  color: #fff;
+}
+
+thead th {
+  padding: 12px;
+  text-align: center;
+  font-size: 16px;
+}
+
+tbody td {
+  padding: 5px;
+  text-align: center;
+  font-size: 15px;
+  border-bottom: 1px solid #eee;
+}
+
+tbody tr:hover {
+  background: #ecf6fd;
+}
+
+#edit-btn {
+  background-color: #f39c12;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  font-size: 13px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.edit-btn:hover {
+  background-color: #e67e22;
+}
+
+/* تحسين الموبايل */
+@media (max-width: 768px) {
+  .table-container {
+    flex-direction: column;
+  }
+  table, thead, tbody, th, td, tr {
+    display: block;
+  }
+  thead {
+    display: none;
+  }
+  tbody tr {
+    margin-bottom: 10px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+  }
+  tbody td {
+    border: none;
+    text-align: right;
+    display: flex;
+    justify-content: space-between;
+  }
+  tbody td::before {
+    content: attr(data-label);
+    font-weight: bold;
+    color: #2c3e50;
+  }
+}
+</style>
+</head>
+<body>
+  <div>
+      <button onclick="indes()" id="edit-btn"> 
+  الصفحة الرئيسية</button>
+  </div>
+  
+<div class="table-container">
+  <div>
+    <h2>التحداد</h2>
+    <table>
+      <thead>
+        <tr><th>ID</th><th>القطعة</th><th>الثمن</th><th>تعديل</th></tr>
+      </thead>
+      <tbody id="tableM"></tbody>
+    </table>
+  </div>
+
+  <div>
+    <h2>التصبين + التحداد</h2>
+    <table>
+      <thead>
+        <tr><th>ID</th><th>القطعة</th><th>الثمن</th><th>تعديل</th></tr>
+      </thead>
+      <tbody id="tableS"></tbody>
+    </table>
+  </div>
+
+  <div>
+    <h2>الصباغة</h2>
+    <table>
+      <thead>
+        <tr><th>ID</th><th>القطعة</th><th>الثمن</th><th>تعديل</th></tr>
+      </thead>
+      <tbody id="tableSB"></tbody>
+    </table>
+  </div>
+</div>
+  <!-- placeholders -->
+  <div id="itemsContainer" style="display: none;"></div>
+  <div id="todayDate" style="display:none"></div>
+  <div id="receiptId" style="display:none">----</div>
+  <div id="total" style="display:none">المجموع: 0 درهم</div>
+  <textarea id="output" style="display:none"></textarea>
+  <input id="whatsappNumber" type="text" style="display:none" />
+  <input id="nameclione" type="text" style="display:none" />
+  <input id="fastWash" type="checkbox" style="display:none" />
+  <input id="paid" type="checkbox" style="display:none" />
+  </div>
+  <script src="script.js"></script>
+  <script src="items.js"></script>
+</body>
+</html>

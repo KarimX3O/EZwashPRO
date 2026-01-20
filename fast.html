@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>الوصولات المستعجلة</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      background: linear-gradient(#fdfbfb,);
+      margin: 0;
+      padding: 0;
+      direction: rtl;
+    }
+
+    header {
+      text-align: center;
+      padding: 20px;
+      background: #e74c3c;
+      color: white;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      border-bottom-left-radius: 20px;
+      border-bottom-right-radius: 20px;
+    }
+
+    header h2 {
+      margin: 0;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    ul#paidReceipts {
+      list-style: none;
+      padding: 20px;
+      margin: 0 auto;
+      max-width: 600px;
+    }
+
+    ul#paidReceipts li {
+      background: white;
+      padding: 15px 20px;
+      margin-bottom: 15px;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    ul#paidReceipts li:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+      background: #fff5f5;
+    }
+
+    .receipt-info {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      color: #333;
+      font-size: 15px;
+    }
+
+    .receipt-id {
+      font-weight: bold;
+      color: #e74c3c;
+    }
+
+    .receipt-total {
+      font-weight: bold;
+      color: #27ae60;
+    }
+
+    .icon {
+      font-size: 24px;
+      color: #e74c3c;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h2>⚡ الوصولات المستعجلة</h2>
+  </header>
+
+  <ul id="paidReceipts"></ul>
+
+  <script>
+    const receipts = JSON.parse(localStorage.getItem('receipts') || '[]');
+    const paidList = receipts.filter(r => r.fast);
+    const ul = document.getElementById("paidReceipts");
+
+    paidList.forEach(r => {
+      const li = document.createElement("li");
+
+      li.innerHTML = `
+        <div class="receipt-info">
+          <span><strong>👤</strong> ${r.name}</span>
+          <span class="receipt-id">🧾 وصل: ${r.id}</span>
+          <span>📅 ${r.date}</span>
+          <span class="receipt-total">💰 ${r.total} درهم</span>
+        </div>
+        <div class="icon">⚡</div>
+      `;
+      
+      ul.appendChild(li);
+    });
+  </script>
+</body>
+</html>

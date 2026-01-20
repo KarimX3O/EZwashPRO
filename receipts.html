@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>قائمة الوصولات</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      direction: rtl;
+      background: #f2f2f2;
+      padding: 20px;
+    }
+    button {
+  border: 2px solid #333/* لون البوردر بالأحمر */
+}
+
+    .container {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      max-width: 700px;
+      margin: auto;
+    }
+
+    .receipt {
+      border: 1px solid #ccc;
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      background: #fafafa;
+      line-height: 1.8;
+      position: relative;
+    }
+
+    .back-btn {
+      display: inline-block;
+      margin-bottom: 20px;
+      text-decoration: none;
+      color: black;
+      border: 2px solid #333;
+      padding: 8px 14px;
+      border-radius: 6px;
+    }
+
+    #searchInput {
+      width: 95%;
+      padding: 12px;
+      margin-bottom: 20px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    .delete-btn {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: #e74c3c;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 5px 10px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .delete-btn:hover {
+      background: #c0392b;
+    }
+    #click-btn{
+    
+      display: inline-block;
+      margin-bottom: 20px;
+      text-decoration: none;
+      color: black;
+      padding: 2px 7px;
+      border-radius: 6px;
+    }
+    img{
+      width: 20px;
+      height: 20px;
+    }
+  </style>
+</head>
+<body>
+  <a class="back-btn" href="index.html">رجوع للصفحة الرئيسية</a>
+<button onclick="fast()" id="click-btn"> 
+  <img src="images/clock.png" alt="">
+  ️الوصولات المستعجلة</button>
+  <button onclick="paid()" id="click-btn"> 
+  <img  src="images/usd.png" alt="">
+  الوصولات المدفوعة</button>
+
+  <div class="container">
+    <h2>📜 قائمة الوصولات</h2>
+    <input type="text" id="searchInput" placeholder="🔎 ابحث عن اسم، رقم أو رقم الوصل...">
+    <div id="receiptsContainer"></div>
+  </div>
+
+<script>
+  let receipts = JSON.parse(localStorage.getItem('receipts') || '[]').reverse();
+  const container = document.getElementById("receiptsContainer");
+  const searchInput = document.getElementById("searchInput");
+
+  const totalBox = document.createElement("div");
+  totalBox.style.marginBottom = "15px";
+  totalBox.style.fontWeight = "bold";
+  totalBox.style.fontSize = "18px";
+  totalBox.style.color = "green";
+  container.parentNode.insertBefore(totalBox, container);
+
+  function displayReceipts(list) {
+    container.innerHTML = "";
+    if (list.length === 0) {
+      container.innerHTML = "<p>❌ لا توجد وصولات مطابقة.</p>";
+      totalBox.innerHTML = "";
+      return;
+    }
+
+    const nameQuery = searchInput.value.trim().toLowerCase();
+    if (nameQuery) {
+      const sameNameReceipts = receipts.filter(r =>
+        r.name && r.name.toLowerCase() === nameQuery
+      );
+      if (sameNameReceipts.length > 0) {
+        const totalSum = sameNameReceipts.reduce((sum, r) => {
+          const amount = parseFloat((r.total || '0').toString().replace(/[^\d.-]/g, ''));
+          return sum + amount;
+        }, 0);
+        totalBox.innerHTML = `💵 المجموع الكلي للوصولات باسم "<strong>${sameNameReceipts[0].name}</strong>" هو: ${totalSum} درهم`;
+      } else {
+        totalBox.innerHTML = "";
+      }
+    } else {
+      totalBox.innerHTML = "";
+    }
+
+    list.forEach((r) => {
+      const div = document.createElement("div");
+      div.className = "receipt";
+      div.innerHTML = `
+        <button class="delete-btn" onclick="deleteReceipt('${r.id}')">🗑️ حذف</button>
+        🧾 <strong>رقم:</strong> ${r.id || '---'}<br>
+        📅 <strong>تاريخ:</strong> ${r.date || '---'}<br>
+        👤 <strong>الاسم:</strong> ${r.name || '---'}<br>
+        📲 <strong>الرقم:</strong> ${r.number || '---'}<br>
+        💰 <strong>المجموع:</strong> ${r.total || '---'} درهم<br>
+        🧺 <pre>${r.content || ''}</pre>
+      `;
+      container.appendChild(div);
+    });
+  }
+
+  function deleteReceipt(id) {
+    if (confirm("هل أنت متأكد أنك تريد حذف هذا الوصل؟")) {
+      receipts = receipts.filter(r => r.id !== id);
+      localStorage.setItem('receipts', JSON.stringify(receipts.slice().reverse()));
+      displayReceipts(filterReceipts(searchInput.value));
+    }
+  }
+
+  function filterReceipts(query) {
+    query = query.trim().toLowerCase();
+    return receipts.filter(r =>
+      (r.name && r.name.toLowerCase().includes(query)) ||
+      (r.number && r.number.includes(query)) ||
+      (r.id && r.id.includes(query))
+    );
+  }
+
+  displayReceipts(receipts);
+
+  searchInput.addEventListener("input", function () {
+    const filtered = filterReceipts(this.value);
+    displayReceipts(filtered);
+  });
+
+  function paid() {
+    window.location.href = 'paid.html';
+  }
+
+  function fast() {
+    window.location.href = 'fast.html';
+  }
+</script>
+
+
+</body>
+</html>
