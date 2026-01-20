@@ -38,7 +38,7 @@ let unpaidTotal = receipts
 
 // عرض فـ HTML
 document.getElementById("totalAll").innerHTML =`
- <h3>${totalAll}$</h3>
+ <h3>$ ${totalAll}</h3>
   <p>💰درهم</p><span></span>
 `
   
